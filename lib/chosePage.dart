@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/data.dart';
 import 'package:instagram/profile/profile.dart';
 import 'package:instagram/reails/reals.dart';
 
@@ -14,14 +15,6 @@ class chosePage extends StatefulWidget {
 }
 
 class _chosePageState extends State<chosePage> {
-  int indexPage = 0;
-  List sicren = [
-    home(),
-    expluer(),
-    realsPage(),
-    activityPage(),
-    profilePage(),
-  ];
 
   @override
   Widget build(BuildContext context) {

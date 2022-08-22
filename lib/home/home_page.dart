@@ -1,6 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:instagram/data.dart';
+import 'package:instagram/profile/userprofile.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -22,15 +23,14 @@ class _homeState extends State<home> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: 150, width: MediaQuery.of(context).size.height / 5,
+                  height: MediaQuery.of(context).size.height * 0.13,
+                  width: MediaQuery.of(context).size.height / 5,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
                             "images/inss.png",
-
                           ))),
-                
                 ),
               ],
             ),
@@ -60,62 +60,54 @@ class _homeState extends State<home> {
           ],
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
-                height: 110,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    story(1, "You"),
-                    story(2, "DNA"),
-                    story(4, "dev.mustafaahmed"),
-                    story(5, "zhra.dev"),
-                    story(3, "ctn"),
-                    story(2, "DNA"),
-                    story(0, "aik"),
-                    story(3, "ctn"),
-                    story(2, "DNA"),
-                    story(0, "aik"),
-                    story(3, "ctn"),
-                    story(2, "DNA"),
-                    story(0, "aik"),
-                    story(3, "ctn"),
-                    story(4, "dev.mustafaahmed"),
-                    story(5, "zhra.dev"),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  height: 110,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      story(1, "You"),
+                      story(2, "DNA"),
+                      story(4, "dev.mustafaahmed"),
+                      story(5, "zhra.dev"),
+                      story(3, "ctn"),
+                      story(2, "DNA"),
+                      story(0, "aik"),
+                      story(3, "ctn"),
+                      story(2, "DNA"),
+                      story(0, "aik"),
+                      story(3, "ctn"),
+                      story(2, "DNA"),
+                      story(0, "aik"),
+                      story(3, "ctn"),
+                      story(4, "dev.mustafaahmed"),
+                      story(5, "zhra.dev"),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                  child: Container(
-                child: GridView.count(
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
-                  children: [
-                    post(2, "DNA",3,loc: "Baghdad",dis: "New day"),
-                    post(4, "dev.mustafaahmed",5,loc: "Zain.iq",dis: "All DNA teem"),
-                    post(1, "ahmed",1,loc: "Home",dis: "my first post"),
-                    post(5, "zhra.dev",4,loc: "Zain.iq",dis: "Dev Zhra"),
-
-
-                  ],
-                ),
-              ))
-            ],
+                Container(
+                  child: Column(
+                    children: [
+                      post(context, 2, "DNA", 3,
+                          loc: "Baghdad", dis: "New day"),
+                      post(context, 4, "dev.mustafaahmed", 5,
+                          loc: "Zain.iq", dis: "All DNA teem"),
+                      post(context, 1, "ahmed", 1,
+                          loc: "Home", dis: "my first post"),
+                      post(context, 5, "zhra.dev", 4,
+                          loc: "Zain.iq", dis: "Dev Zhra"),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ));
   }
 
-  List acountImag = [
-    "images/alogo.png",
-    "images/AZlogo.png",
-    "images/dna.png",
-    "images/logo.png",
-    "images/devm.jpg",
-    "images/devz.jpg",
-  ];
   Container story(
     int indexPhoto,
     String userName,
@@ -129,7 +121,7 @@ class _homeState extends State<home> {
             width: 80,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage(acountImag[indexPhoto])),
+                  fit: BoxFit.cover, image: AssetImage(acountImags[indexPhoto])),
               color: Colors.black12,
               borderRadius: BorderRadius.circular(50),
             ),
@@ -143,22 +135,11 @@ class _homeState extends State<home> {
     );
   }
 
-  List photos = [
-    "images/AZlogo.png",
-    "images/post.png",
-    "images/post1.jpg",
-    "images/post2.jpg",
-    "images/post3.jpg",
-    "images/post4.jpg",
-    "images/devz.jpg",
-    "images/devm.jpg",
-
-  ];
-
 //dis= discretion
 //loc location
-  Container post(int indexUser, String userName,int postIndex,
+  Container post(var context, int indexUser, String userName, int postIndex,
       {String loc = "", String dis = 'dna Ahmed Mustafa alaa'}) {
+    String acountImag=acountImags[indexUser];
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,14 +152,23 @@ class _homeState extends State<home> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 8),
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(acountImag[indexUser])),
-                        borderRadius: BorderRadius.circular(40),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => profileuser(loc:loc,userName:userName,acountImag:acountImag),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 8),
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(acountImag)),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
                       ),
                     ),
                     Column(

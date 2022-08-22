@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:instagram/activity/activityPage.dart';
+import 'package:instagram/data.dart';
 import 'package:instagram/home/home_page.dart';
 import 'package:instagram/profile/profile.dart';
 import 'package:instagram/reails/reals.dart';
@@ -124,11 +125,4 @@ class _expluerState extends State<expluer> {
     );
   }
 
-  List photolist = [
-    "images/post.png",
-    "images/post1.jpg",
-    "images/post2.jpg",
-    "images/post3.jpg",
-    "images/post4.jpg",
-  ];
 }

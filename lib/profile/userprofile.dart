@@ -3,29 +3,45 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:instagram/data.dart';
 
-class profilePage extends StatefulWidget {
-  const profilePage({Key? key}) : super(key: key);
+class profileuser extends StatefulWidget {
+  final String userName;
+  final String acountImag;
+  final String loc;
 
+
+  profileuser({
+   required this.userName,
+  required this.acountImag,
+    required this.loc,
+
+
+  });
   @override
-  State<profilePage> createState() => _profilePageState();
+  State<profileuser> createState() => _profileuserState();
 }
 
-class _profilePageState extends State<profilePage> {
+class _profileuserState extends State<profileuser> {
   @override
+  int indexPage = 0;
+
   Widget build(BuildContext context) {
-    return
-      Scaffold(
-      appBar: AppBar(
+    return Scaffold(
+
+      appBar: AppBar(automaticallyImplyLeading: false,
         flexibleSpace: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 40, left: 10),
               child: Row(
+
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  GestureDetector(onTap: (){Navigator.of(context).pop();},
+
+                      child: Icon(Icons.arrow_back_ios,color: Colors.black,)),
                   Text(
-                    "ahmedzeyad.az",
+                    widget.userName,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Icon(Icons.keyboard_arrow_down_rounded)
@@ -39,18 +55,8 @@ class _profilePageState extends State<profilePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image(
-                image: AssetImage(
-                  "images/more.png",
-                ),
-                height: 30,
-                width: 30,
-              ),
-              SizedBox(
-                width: 30,
-              ),
               Icon(
-                Icons.menu,
+                Icons.more_vert,
                 color: Colors.black,
                 size: 30,
               )
@@ -58,8 +64,46 @@ class _profilePageState extends State<profilePage> {
           )
         ],
       ),
+      bottomNavigationBar:
+      BottomNavigationBar(onTap: (int index) {
+        setState(() {
+
+          indexPage = index;
+        });
+      },
+
+        backgroundColor: Colors.white,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon:
+            Image.asset("images/home insta.png",width: 30,height: 30,)  ,
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search,size: 40,color: Colors.black,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset("images/video.png",width: 30,height: 30,),
+            label: '',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border,size: 30,color: Colors.black,),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset("images/AZlogo.png", width: 30,
+              height: 30,),
+
+
+            label: '',
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
-      body: Column(
+      body:
+      Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -77,9 +121,9 @@ class _profilePageState extends State<profilePage> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(width: 3, color: Colors.white),
-                    color: Colors.black,
+                    color: Colors.black12,
                     image: DecorationImage(
-                      image: AssetImage(profileImage),
+                      image: AssetImage(widget.acountImag),
                     )),
               ),
               info("post", 1),
@@ -94,13 +138,15 @@ class _profilePageState extends State<profilePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Ahmed Zeyad",
+                  widget.userName,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Software",
+                  widget.loc,
                   style: TextStyle(
-                    fontSize: 19,
+                    color: Colors.grey,
+
+                    fontSize: 16,
                   ),
                 ),
                 Text(
@@ -112,38 +158,41 @@ class _profilePageState extends State<profilePage> {
               ],
             ),
           ),
-          Row(
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              tool("Edit profile"),
-              tool("Ad tools"),
-              tool("Insighs"),
+              tool("Message"),
+              tool("Following"),
             ],
           ),
           Container(
             margin: EdgeInsets.only(top: 8, bottom: 25),
             height: 110,
-            child: ListView(scrollDirection: Axis.horizontal,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
               children: [
                 highlight(1, "my work"),
                 highlight(2, "DNA"),
                 highlight(0, "New"),
-
               ],
             ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children:
-            [
+            children: [
               Icon(Icons.grid_on),
               // Image.asset("images/all.png", height: 35, width: 35,),
 
-              Image.asset("images/tag.png", height: 35, width: 35,),
-
-            ],),
+              Image.asset(
+                "images/tag.png",
+                height: 35,
+                width: 35,
+              ),
+            ],
+          ),
           Expanded(
-            child: Container(margin: EdgeInsets.only(top: 5),
+            child: Container(
+              margin: EdgeInsets.only(top: 5),
               color: Colors.black12,
               child: GridView.count(
                 mainAxisSpacing: 3,
@@ -194,16 +243,17 @@ class _profilePageState extends State<profilePage> {
               ),
             ),
           ),
-
         ],
       ),
     );
   }
 
-  String profileImage = "images/AZlogo.png";
+  // String profileImage = acountImag
 
-  Column info(String key1,
-      int val1,) {
+  Column info(
+    String key1,
+    int val1,
+  ) {
     return Column(
       children: [
         Text(
@@ -222,9 +272,10 @@ class _profilePageState extends State<profilePage> {
 
   Container tool(String name) {
     return Container(
+
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       height: 40,
-      width: 130,
+      width: MediaQuery.of(context).size.width*0.45,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.black12),
       child: Center(
@@ -236,6 +287,7 @@ class _profilePageState extends State<profilePage> {
       ),
     );
   }
+
   Container poste(String photo, String type) {
     if (type == "lisim")
       type = "images/nmult.png";
@@ -269,12 +321,16 @@ class _profilePageState extends State<profilePage> {
             margin: EdgeInsets.all(3),
             height: 80,
             width: 80,
-            decoration: BoxDecoration(color: Colors.black12,
+            decoration: BoxDecoration(
+                color: Colors.black12,
                 borderRadius: BorderRadius.circular(50),
-                image: DecorationImage(fit: BoxFit.cover,
-                    image: AssetImage(image[index]))),
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage(image[index]))),
           ),
-          Text(name, style: TextStyle(fontSize: 14),)
+          Text(
+            name,
+            style: TextStyle(fontSize: 14),
+          )
         ],
       ),
     );
